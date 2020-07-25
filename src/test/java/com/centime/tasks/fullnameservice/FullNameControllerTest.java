@@ -25,7 +25,8 @@ public class FullNameControllerTest {
         String request = new JSONObject().put("name", "John").put("surName", "Doe").toString();
 
         //When
-        mvc.perform(post("/full-name").contentType(MediaType.APPLICATION_JSON).content(request))
+        mvc.perform(post("/full-name").contentType(MediaType.APPLICATION_JSON)
+                .header("traceId", "20200726").content(request))
                 //Then
                 .andExpect(status().isOk()).andExpect(content().string("John Doe"));
         ;
@@ -38,7 +39,7 @@ public class FullNameControllerTest {
 
         //When
         mvc.perform(post("/full-name").contentType(MediaType.APPLICATION_JSON)
-                .content("{\"Name\": \"John\",\"middlename\":\"Doe\"}"))
+                .header("traceId", "20200726").content("{\"Name\": \"John\",\"middlename\":\"Doe\"}"))
                 //Then
                 .andExpect(status().isBadRequest());
     }
